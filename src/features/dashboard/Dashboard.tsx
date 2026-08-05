@@ -1,11 +1,13 @@
-import { Globe, ShoppingCart, ToolCase } from "lucide-react"
-import RecentProjects from "../../components/shared/ProjectCard"
+import { ToolCase } from "lucide-react"
 import UnfinishedProjectCard from "./Components/UnfinishedProjectCard"
 import type { ProjectType } from "../../types/projectType"
+import useGlobalStore from "@/stores/globalStore"
+import ProjectCard from "../../components/shared/ProjectCard"
 
 // === PLACEHOLDERS === //
 
 const unfinishedProject: ProjectType = {
+  id: "project-1",
   title: "Project 1",
   description: "A project about a cat",
   lastEdited: new Date(),
@@ -16,42 +18,11 @@ const unfinishedProject: ProjectType = {
   },
 }
 
-const recentProjects: ProjectType[] = [
-  {
-    title: "E-commerce",
-    description: "Loja virtual para venda de roupas.",
-    lastEdited: new Date("2026-08-03"),
-    progress: 100,
-    image: {
-      type: "icon",
-      value: ShoppingCart,
-    },
-  },
-  {
-    title: "Portfólio",
-    description: "Meu site pessoal desenvolvido em React.",
-    lastEdited: new Date("2026-08-01"),
-    progress: 25,
-    image: {
-      type: "icon",
-      value: Globe,
-    },
-  },
-  {
-    title: "Weather App",
-    description: "Consulta de previsão do tempo.",
-    lastEdited: new Date("2026-07-28"),
-    progress: 100,
-    image: {
-      type: "image",
-      value: "https://picsum.photos/200?random=1",
-    },
-  },
-]
-
 // ===== //
 
 export default function Dashboard() {
+  const projects = useGlobalStore((state) => state.projects)
+
   return (
     <>
       <h1 className="sectionTitle">DashBoard</h1>
@@ -62,7 +33,11 @@ export default function Dashboard() {
       </section>
       <section className="mb-12">
         <h2 className="label text-sm">Projetos Recentes</h2>
-        <RecentProjects projects={recentProjects} />
+        <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
+          {projects.map((project) => (
+            <ProjectCard key={project.id} project={project} />
+          ))}
+        </section>
       </section>
     </>
   )

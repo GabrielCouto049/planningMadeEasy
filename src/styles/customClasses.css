@@ -1,23 +1,19 @@
 .navlink {
-    @apply flex items-center gap-3 py-3 px-6 rounded-lg bg-gray-300;
+    @apply flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground;
+}
+
+.navlink[aria-current="page"] {
+    @apply bg-accent text-accent-foreground;
 }
 
 .sectionTitle {
-    @apply text-2xl text-gray-900 font-medium mb-12;
+    @apply mb-8 text-2xl font-semibold tracking-tight text-foreground;
 }
 
 .label {
-    @apply uppercase font-medium tracking-wider mb-3;
-}
-
-.primaryButton {
-    @apply bg-gray-950 text-gray-50 px-5 py-2 rounded-lg font-medium text-sm tracking-wide cursor-pointer;
-}
-
-.ghostButton {
-    @apply text-gray-900 px-5 py-2 rounded-lg font-medium text-sm tracking-wide cursor-pointer border border-gray-400;
+    @apply mb-3 text-xs font-medium tracking-wider text-muted-foreground uppercase;
 }
 
 .card {
-    @apply bg-white shadow-sm border border-gray-100 rounded-lg;
+    @apply rounded-xl border border-border bg-card text-card-foreground shadow-sm;
 }

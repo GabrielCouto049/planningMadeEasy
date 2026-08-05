@@ -1,4 +1,8 @@
 import { Ellipsis } from "lucide-react"
+
+import { Button } from "@/components/ui/button"
+import { cn } from "@/lib/utils"
+
 import type { ProjectType } from "../../types/projectType"
 import formatDate from "../../utils/formatDate"
 import { renderImage } from "../../utils/renderImage"
@@ -9,45 +13,56 @@ const getStatus = (progress: number): string => {
   return "Ativo"
 }
 
-export default function RecentProjects({
-  projects,
-}: {
-  projects: ProjectType[]
-}) {
+interface ProjectCardProps {
+  project: ProjectType
+}
+
+export default function ProjectCard({
+  project,
+}: ProjectCardProps) {
+  const { title, lastEdited, progress, image, description } = project
+
   return (
-    <section className="grid grid-cols-4 gap-4">
-      {projects.map(({ title, lastEdited, progress, image, description }) => (
-        <aside key={title} className="card flex flex-col gap-6 p-6">
-          <header className="flex justify-between">
-            <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg bg-gray-100">
-              {renderImage(image)}
-            </div>
-            <button>
-              <Ellipsis />
-            </button>
-          </header>
+    <aside className="card flex flex-col gap-6 p-6 transition-all hover:-translate-y-0.5 hover:shadow-md">
+      <header className="flex justify-between">
+        <div className="flex h-12 w-12 items-center justify-center overflow-hidden rounded-lg bg-muted text-muted-foreground">
+          {renderImage(image)}
+        </div>
 
-          <main>
-            <div className="mb-2 flex items-center gap-3">
-              <h2 className="font-semibold">{title}</h2>
-              <div className="rounded-full border border-gray-400 px-2 py-0.5 text-xs text-gray-800">
-                {getStatus(progress)}
-              </div>
-            </div>
-            <p className="mb-4 line-clamp-3 flex-1 text-sm text-gray-500">
-              {description}
-            </p>
-            <p className="text-xs text-gray-500">
-              Editado em {formatDate(lastEdited)}
-            </p>
-          </main>
+        <Button variant="ghost" size="icon-sm" aria-label="Mais opções">
+          <Ellipsis />
+        </Button>
+      </header>
 
-          <footer className="grid grid-cols-2 gap-6">
-            <button className="ghostButton w-full">Editar</button>
-            <button className="primaryButton w-full">Ver Projeto</button>
-          </footer>
-        </aside>
-      ))}
-    </section>
+      <main>
+        <div className="mb-2 flex items-center gap-3">
+          <h2 className="font-semibold">{title}</h2>
+
+          <div
+            className={cn(
+              "rounded-full px-2.5 py-0.5 text-xs font-medium",
+              progress === 100
+                ? "bg-primary text-primary-foreground"
+                : "border border-border text-muted-foreground"
+            )}
+          >
+            {getStatus(progress)}
+          </div>
+        </div>
+
+        <p className="mb-4 line-clamp-3 flex-1 text-sm text-muted-foreground">
+          {description}
+        </p>
+
+        <p className="text-xs text-muted-foreground">
+          Editado em {formatDate(lastEdited)}
+        </p>
+      </main>
+
+      <footer className="grid grid-cols-2 gap-3">
+        <Button variant="outline">Editar</Button>
+        <Button>Ver Projeto</Button>
+      </footer>
+    </aside>
   )
 }

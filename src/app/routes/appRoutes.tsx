@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router"
+import { createBrowserRouter, Navigate, NavLink } from "react-router"
 import App from "../App"
 import AllProjects from "@/features/allProjects/AllProjects"
 import Dashboard from "@/features/dashboard/Dashboard"
@@ -11,7 +11,7 @@ export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <p>SORRY, THERE WAS A PROBLEM</p>,
+    errorElement: <><p>SORRY, THERE WAS A PROBLEM </p><NavLink to="/dashboard">Return Home</NavLink></>,
     children: [
       {
         index: true,
@@ -22,24 +22,33 @@ export const router = createBrowserRouter([
         element: <Dashboard />,
       },
       {
-        path: "allProjects",
-        element: <AllProjects />,
-      },
-      {
-        path: "newProject",
-        element: <NewProject />,
+        path: "projetos",
         children: [
           {
-            path: "general",
-            element: <GeneralInfo />,
+            index: true,
+            element: <AllProjects />,
           },
           {
-            path: "archtecture",
-            element: <ProjectArch />,
-          },
-          {
-            path: "design",
-            element: <ProjectDesign />,
+            path: "novo",
+            element: <NewProject />,
+            children: [
+              {
+                index: true,
+                element: <Navigate to="informacoes" replace />,
+              },
+              {
+                path: "informacoes",
+                element: <GeneralInfo />,
+              },
+              {
+                path: "arquitetura",
+                element: <ProjectArch />,
+              },
+              {
+                path: "design",
+                element: <ProjectDesign />,
+              },
+            ],
           },
         ],
       },

@@ -1,37 +1,11 @@
 import { create } from "zustand"
-import type { ProjectType } from "@/types/projectType"
 
-interface GlobalStoreType {
-  projects: ProjectType[]
-  addProject: (project: ProjectType) => void
-  deleteProject: (id: ProjectType["id"]) => void
-  updateProject: (
-    id: ProjectType["id"],
-    properties: Partial<ProjectType>
-  ) => void
-}
+import { projectsSlice, type ProjectSliceType } from "@/features/allProjects/slices/projectSlice"
 
-//all this will be moved to projectSlice
+export type GlobalStoreType = ProjectSliceType
 
-const useGlobalStore = create<GlobalStoreType>((set) => ({
-  projects: [],
-
-  addProject: (project) =>
-    set((state) => ({
-      projects: [...state.projects, project],
-    })),
-
-  deleteProject: (id) =>
-    set((state) => ({
-      projects: state.projects.filter((project) => project.id !== id),
-    })),
-
-  updateProject: (id, properties) =>
-    set((state) => ({
-      projects: state.projects.map((project) =>
-        project.id === id ? { ...project, ...properties } : project
-      ),
-    })),
+const useGlobalStore = create<GlobalStoreType>((...a) => ({
+  ...projectsSlice(...a)
 }))
 
 export default useGlobalStore
