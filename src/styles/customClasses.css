@@ -2,7 +2,7 @@
     @apply flex items-center gap-3 rounded-lg px-4 py-2.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-accent hover:text-accent-foreground;
 }
 
-.navlink[aria-current="page"] {
+.navlink.active {
     @apply bg-accent text-accent-foreground;
 }
 
@@ -16,4 +16,8 @@
 
 .card {
     @apply rounded-xl border border-border bg-card text-card-foreground shadow-sm;
+}
+
+.formTextInput {
+    @apply border px-5 py-2 rounded-lg bg-primary-foreground
 }

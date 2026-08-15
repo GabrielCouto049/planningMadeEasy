@@ -1,30 +1,13 @@
 import { Fragment } from "react"
-import { Link, useLocation } from "react-router"
-import { Check, ClipboardList, Layers, Palette } from "lucide-react"
+import { Link } from "react-router"
+import { Check } from "lucide-react"
 
 import { cn } from "@/lib/utils"
-
-const steps = [
-  {
-    to: "/projetos/novo/informacoes",
-    title: "Informações",
-    icon: ClipboardList,
-  },
-  {
-    to: "/projetos/novo/arquitetura",
-    title: "Arquitetura",
-    icon: Layers,
-  },
-  {
-    to: "/projetos/novo/design",
-    title: "Design",
-    icon: Palette,
-  },
-]
+import { steps } from "../constants/steps"
+import { useCreationSteps } from "../hooks/useCreationSteps"
 
 export default function Stepper() {
-  const { pathname } = useLocation()
-  const currentIndex = steps.findIndex((step) => pathname.startsWith(step.to))
+  const { currentIndex } = useCreationSteps()
 
   return (
     <nav className="card px-6 py-5">
@@ -37,7 +20,10 @@ export default function Stepper() {
           return (
             <Fragment key={step.to}>
               <li>
-                <Link to={step.to} className="group flex flex-col items-center gap-2">
+                <Link
+                  to={step.to}
+                  className="group flex flex-col items-center gap-2"
+                >
                   <span
                     className={cn(
                       "flex size-8 items-center justify-center rounded-full border text-xs font-semibold transition-colors",
@@ -50,8 +36,13 @@ export default function Stepper() {
                         "border-border bg-background text-muted-foreground group-hover:border-muted-foreground/50 group-hover:text-foreground"
                     )}
                   >
-                    {isDone ? <Check className="size-3.5" /> : <Icon className="size-3.5" />}
+                    {isDone ? (
+                      <Check className="size-3.5" />
+                    ) : (
+                      <Icon className="size-3.5" />
+                    )}
                   </span>
+
                   <span
                     className={cn(
                       "text-xs font-medium transition-colors",
@@ -64,6 +55,7 @@ export default function Stepper() {
                   </span>
                 </Link>
               </li>
+
               {index < steps.length - 1 && (
                 <li
                   aria-hidden="true"

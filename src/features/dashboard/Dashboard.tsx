@@ -34,7 +34,7 @@ export default function Dashboard() {
       <section className="mb-12">
         <h2 className="label text-sm">Projetos Recentes</h2>
         <section className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-4">
-          {projects.map((project) => (
+          {projects.slice(0, 3).map((project) => (
             <ProjectCard key={project.id} project={project} />
           ))}
         </section>
