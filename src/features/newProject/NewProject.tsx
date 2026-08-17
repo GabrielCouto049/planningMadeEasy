@@ -5,13 +5,11 @@ import NavButtons from "./components/NavButtons"
 
 export default function NewProject() {
   return (
-    <div className="flex h-full flex-col justify-between">
-      <div className="space-y-12">
-        <Stepper />
-        <section>
-          <Outlet />
-        </section>
-      </div>
+    <div className="h-full grid grid-rows-[auto_1fr_auto] gap-6">
+      <Stepper />
+      <section className="overflow-auto">
+        <Outlet />
+      </section>
       <NavButtons />
     </div>
   )
