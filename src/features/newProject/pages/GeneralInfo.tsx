@@ -10,38 +10,12 @@ import { Input } from "@base-ui/react/input"
 import IconPicker from "../components/IconPicker"
 import TagInput from "../components/TagInput"
 import ComboboxField from "../components/ComboboxField"
-
-const LANGUAGE_SUGGESTIONS = [
-  "JavaScript",
-  "TypeScript",
-  "Python",
-  "Java",
-  "C#",
-  "Go",
-  "Ruby",
-  "PHP",
-  "Swift",
-  "Kotlin",
-  "Rust",
-  "C++",
-]
-
-const FRAMEWORK_SUGGESTIONS = [
-  "React",
-  "Next.js",
-  "Vue",
-  "Nuxt",
-  "Angular",
-  "Svelte",
-  "Remix",
-  "Express",
-  "FastAPI",
-  "Django",
-  "Spring Boot",
-  "Laravel",
-]
+import { FRAMEWORK_SUGGESTIONS, LANGUAGE_SUGGESTIONS } from "../constants/stackSuggestions"
+import useProjectCreation from "../hooks/useProjectCreation"
 
 export default function GeneralInfo() {
+  const {title, setTitle} = useProjectCreation()
+
   return (
     <>
       <h1 className="sectionTitle">Informações Gerais</h1>
@@ -59,6 +33,8 @@ export default function GeneralInfo() {
                   className="formTextInput"
                   autoComplete="off"
                   placeholder="Task Manager"
+                  value={title}
+                  onChange={(e) => setTitle(e.target.value)}
                 />
               </Field>
 
