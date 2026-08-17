@@ -6,25 +6,28 @@ import { cn } from "@/lib/utils"
 interface TagInputProps {
   className?: string
   placeholder?: string
+  value?: string[]
+  onChange?: (tags: string[]) => void
 }
 
 export default function TagInput({
   className,
   placeholder = "Digite e pressione Enter...",
+  value = [],
+  onChange,
 }: TagInputProps) {
-  const [tags, setTags] = useState<string[]>([])
   const [inputValue, setInputValue] = useState("")
 
-  const addTag = (value: string) => {
-    const trimmed = value.trim()
-    if (trimmed && !tags.includes(trimmed)) {
-      setTags((prev) => [...prev, trimmed])
+  const addTag = (tagValue: string) => {
+    const trimmed = tagValue.trim()
+    if (trimmed && !value.includes(trimmed)) {
+      onChange?.([...value, trimmed])
     }
     setInputValue("")
   }
 
   const removeTag = (tag: string) => {
-    setTags((prev) => prev.filter((t) => t !== tag))
+    onChange?.(value.filter((t) => t !== tag))
   }
 
   const handleKeyDown = (e: KeyboardEvent<HTMLInputElement>) => {
@@ -32,8 +35,8 @@ export default function TagInput({
       e.preventDefault()
       addTag(inputValue)
     }
-    if (e.key === "Backspace" && !inputValue && tags.length > 0) {
-      removeTag(tags[tags.length - 1])
+    if (e.key === "Backspace" && !inputValue && value.length > 0) {
+      removeTag(value[value.length - 1])
     }
   }
 
@@ -44,7 +47,7 @@ export default function TagInput({
         className
       )}
     >
-      {tags.map((tag) => (
+      {value.map((tag) => (
         <Badge key={tag} variant="secondary" className="gap-1">
           {tag}
           <button
@@ -61,7 +64,7 @@ export default function TagInput({
         value={inputValue}
         onChange={(e) => setInputValue(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={tags.length === 0 ? placeholder : ""}
+        placeholder={value.length === 0 ? placeholder : ""}
         className="min-w-24 flex-1 bg-transparent text-sm outline-none placeholder:text-muted-foreground"
       />
     </div>

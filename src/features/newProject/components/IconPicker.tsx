@@ -1,4 +1,3 @@
-import { useState } from "react"
 import {
   Folder,
   FileCode,
@@ -11,6 +10,7 @@ import {
 } from "lucide-react"
 import type { LucideIcon } from "lucide-react"
 import { cn } from "@/lib/utils"
+import type { ProjectImage } from "@/types/generalInfoType"
 
 const ICONS: { icon: LucideIcon; label: string }[] = [
   { icon: Folder, label: "Folder" },
@@ -23,37 +23,39 @@ const ICONS: { icon: LucideIcon; label: string }[] = [
 ]
 
 interface IconPickerProps {
+  value: ProjectImage
+  onChange: (value: ProjectImage) => void
   className?: string
 }
 
-export default function IconPicker({ className }: IconPickerProps) {
-  const [selectedIndex, setSelectedIndex] = useState<number | null>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+export default function IconPicker({
+  value,
+  onChange,
+  className,
+}: IconPickerProps) {
+  const handleFileChange = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
     const file = e.target.files?.[0]
-    if (file) {
-      const url = URL.createObjectURL(file)
-      setPreviewUrl(url)
-      setSelectedIndex(null)
-    }
+
+    if (!file) return
+
+    const url = URL.createObjectURL(file)
+
+    onChange({ type: "image", url })
   }
 
   return (
     <div className={cn("flex flex-col gap-2", className)}>
       <div className="flex flex-wrap items-center gap-2">
-        {ICONS.map((item, index) => {
-          const Icon = item.icon
-          const isSelected = selectedIndex === index
+        {ICONS.map((item) => {
+          const isSelected = value.type === "icon" && value.icon === item.icon
 
           return (
             <button
               key={item.label}
               type="button"
-              onClick={() => {
-                setSelectedIndex(index)
-                setPreviewUrl(null)
-              }}
+              onClick={() => onChange({ type: "icon", icon: item.icon })}
               className={cn(
                 "flex size-10 items-center justify-center rounded-lg border transition-colors",
                 isSelected
@@ -62,7 +64,7 @@ export default function IconPicker({ className }: IconPickerProps) {
               )}
               title={item.label}
             >
-              <Icon className="size-5" />
+              <item.icon className="size-5" />
             </button>
           )
         })}
@@ -70,7 +72,7 @@ export default function IconPicker({ className }: IconPickerProps) {
         <label
           className={cn(
             "flex size-10 cursor-pointer items-center justify-center rounded-lg border border-dashed transition-colors",
-            previewUrl
+            value.type === "image"
               ? "border-primary bg-primary/10 text-primary"
               : "border-border bg-background text-muted-foreground hover:bg-muted hover:text-foreground"
           )}
@@ -82,9 +84,10 @@ export default function IconPicker({ className }: IconPickerProps) {
             className="hidden"
             onChange={handleFileChange}
           />
-          {previewUrl ? (
+
+          {value.type === "image" ? (
             <img
-              src={previewUrl}
+              src={value.url}
               alt="Preview"
               className="size-full rounded-lg object-cover"
             />

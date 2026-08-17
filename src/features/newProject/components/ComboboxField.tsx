@@ -6,21 +6,24 @@ interface ComboboxFieldProps {
   suggestions?: string[]
   placeholder?: string
   className?: string
+  value?: string
+  onChange?: (value: string) => void
 }
 
 export default function ComboboxField({
   suggestions = [],
   placeholder = "Digite para buscar...",
   className,
+  value = "",
+  onChange,
 }: ComboboxFieldProps) {
-  const [inputValue, setInputValue] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const [selectedIndex, setSelectedIndex] = useState(-1)
   const inputRef = useRef<HTMLInputElement>(null)
   const listRef = useRef<HTMLUListElement>(null)
 
   const filtered = suggestions.filter((s) =>
-    s.toLowerCase().includes(inputValue.toLowerCase())
+    s.toLowerCase().includes(value.toLowerCase())
   )
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -34,7 +37,7 @@ export default function ComboboxField({
     }
     if (e.key === "Enter" && selectedIndex >= 0) {
       e.preventDefault()
-      setInputValue(filtered[selectedIndex])
+      onChange?.(filtered[selectedIndex])
       setIsOpen(false)
     }
     if (e.key === "Escape") {
@@ -42,8 +45,8 @@ export default function ComboboxField({
     }
   }
 
-  const handleSelect = (value: string) => {
-    setInputValue(value)
+  const handleSelect = (selected: string) => {
+    onChange?.(selected)
     setIsOpen(false)
   }
 
@@ -52,9 +55,9 @@ export default function ComboboxField({
       <input
         ref={inputRef}
         type="text"
-        value={inputValue}
+        value={value}
         onChange={(e) => {
-          setInputValue(e.target.value)
+          onChange?.(e.target.value)
           setSelectedIndex(-1)
           setIsOpen(true)
         }}

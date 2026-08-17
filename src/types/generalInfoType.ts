@@ -1,23 +1,25 @@
 import type { LucideIcon } from "lucide-react"
 
-type ProjectImage =
+export type ProjectImage =
   | {
       type: "icon"
-      value: LucideIcon
+      icon: LucideIcon
     }
   | {
       type: "image"
-      value: string
+      url: string
     }
+
+export interface StackType {
+  language: string
+  framework: string
+}
 
 export default interface GeneralInfoType {
   title: string
   image?: ProjectImage
   description: string
-  stack: {
-    language: string
-    framework: string
-  }
+  stack: StackType
   libs: string[]
   problemSolved: string
   targetAudience: string

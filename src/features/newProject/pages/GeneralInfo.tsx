@@ -10,11 +10,29 @@ import { Input } from "@base-ui/react/input"
 import IconPicker from "../components/IconPicker"
 import TagInput from "../components/TagInput"
 import ComboboxField from "../components/ComboboxField"
-import { FRAMEWORK_SUGGESTIONS, LANGUAGE_SUGGESTIONS } from "../constants/stackSuggestions"
+import {
+  FRAMEWORK_SUGGESTIONS,
+  LANGUAGE_SUGGESTIONS,
+} from "../constants/stackSuggestions"
 import useProjectCreation from "../hooks/useProjectCreation"
 
 export default function GeneralInfo() {
-  const {title, setTitle} = useProjectCreation()
+  const {
+    title,
+    setTitle,
+    description,
+    setDescription,
+    image,
+    setImage,
+    stack,
+    setStack,
+    libs,
+    setLibs,
+    solvedProblem,
+    setSolvedProblem,
+    targetAudience,
+    setTargetAudience,
+  } = useProjectCreation()
 
   return (
     <>
@@ -28,6 +46,7 @@ export default function GeneralInfo() {
             <div className="grid grid-cols-2 gap-4">
               <Field>
                 <FieldLabel htmlFor="name">Nome do Projeto</FieldLabel>
+
                 <Input
                   id="name"
                   className="formTextInput"
@@ -40,17 +59,21 @@ export default function GeneralInfo() {
 
               <Field>
                 <FieldLabel htmlFor="description">Descrição</FieldLabel>
+
                 <Textarea
                   id="description"
                   className="formTextInput h-24"
                   placeholder="Descreva brevemente o projeto..."
+                  value={description}
+                  onChange={(e) => setDescription(e.target.value)}
                 />
               </Field>
             </div>
 
             <Field>
               <FieldLabel>Ícone ou Imagem</FieldLabel>
-              <IconPicker />
+
+              <IconPicker value={image} onChange={setImage} />
             </Field>
           </FieldGroup>
         </FieldSet>
@@ -61,17 +84,33 @@ export default function GeneralInfo() {
           <FieldGroup className="card p-6">
             <Field>
               <FieldLabel>Linguagem</FieldLabel>
+
               <ComboboxField
                 suggestions={LANGUAGE_SUGGESTIONS}
                 placeholder="Ex: TypeScript"
+                value={stack.language}
+                onChange={(value) =>
+                  setStack((prev) => ({
+                    ...prev,
+                    language: value,
+                  }))
+                }
               />
             </Field>
 
             <Field>
               <FieldLabel>Framework</FieldLabel>
+
               <ComboboxField
                 suggestions={FRAMEWORK_SUGGESTIONS}
                 placeholder="Ex: React"
+                value={stack.framework}
+                onChange={(value) =>
+                  setStack((prev) => ({
+                    ...prev,
+                    framework: value,
+                  }))
+                }
               />
             </Field>
           </FieldGroup>
@@ -83,7 +122,12 @@ export default function GeneralInfo() {
           <FieldGroup className="card p-6">
             <Field>
               <FieldLabel>Libs Utilizadas</FieldLabel>
-              <TagInput placeholder="Ex: Zustand, React Router..." />
+
+              <TagInput
+                placeholder="Ex: Zustand, React Router..."
+                value={libs}
+                onChange={setLibs}
+              />
             </Field>
           </FieldGroup>
         </FieldSet>
@@ -93,10 +137,16 @@ export default function GeneralInfo() {
 
           <FieldGroup className="card p-6">
             <Field>
-              <FieldLabel>Qual problema este projeto resolve?</FieldLabel>
+              <FieldLabel htmlFor="solved-problem">
+                Qual problema este projeto resolve?
+              </FieldLabel>
+
               <Textarea
+                id="solved-problem"
                 className="formTextInput h-24"
                 placeholder="Descreva o problema que o projeto soluciona..."
+                value={solvedProblem}
+                onChange={(e) => setSolvedProblem(e.target.value)}
               />
             </Field>
           </FieldGroup>
@@ -107,11 +157,17 @@ export default function GeneralInfo() {
 
           <FieldGroup className="card p-6">
             <Field>
-              <FieldLabel>Quem vai usar este projeto?</FieldLabel>
+              <FieldLabel htmlFor="target-audience">
+                Quem vai usar este projeto?
+              </FieldLabel>
+
               <Input
+                id="target-audience"
                 className="formTextInput"
                 autoComplete="off"
                 placeholder="Ex: Desenvolvedores frontend"
+                value={targetAudience}
+                onChange={(e) => setTargetAudience(e.target.value)}
               />
             </Field>
           </FieldGroup>
