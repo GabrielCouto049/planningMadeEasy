@@ -20,7 +20,8 @@ interface ProjectCardProps {
 export default function ProjectCard({
   project,
 }: ProjectCardProps) {
-  const { title, lastEdited, progress, image, description } = project
+  const { lastEdited, progress, general } = project
+  const {image, title, description} = general
 
   return (
     <aside className="card flex flex-col gap-6 p-6 transition-all hover:-translate-y-0.5 hover:shadow-md">

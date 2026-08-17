@@ -1,20 +1,10 @@
-import type { LucideIcon } from "lucide-react";
-
-type ProjectImage =
-  | {
-      type: "icon";
-      value: LucideIcon;
-    }
-  | {
-      type: "image";
-      value: string;
-    };
+import type GeneralInfoType from "./generalInfoType";
 
 export interface ProjectType {
   id: string;
-  title: string;
-  image?: ProjectImage;
-  progress: number;
-  description: string;
   lastEdited: Date;
+  progress: number;
+  general: GeneralInfoType;
+  // folderArch: FolderArchType;
+  // design: DesignInfoType;
 }
