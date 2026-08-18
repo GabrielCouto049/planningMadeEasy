@@ -13,7 +13,9 @@ export default function UnfinishedProjectCard({
 }: {
   project: ProjectType
 }) {
-  const { image, description, progress, lastEdited, title } = project
+  const { progress, lastEdited, general } = project
+  const { description, title, image } = general
+
   return (
     <aside className="card flex flex-col items-start justify-between gap-6 px-6 py-5 lg:flex-row lg:items-center">
       <div className="flex items-center gap-4">

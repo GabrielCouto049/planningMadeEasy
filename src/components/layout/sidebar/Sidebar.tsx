@@ -30,7 +30,7 @@ export default function Sidebar() {
         {buttonIcons.map((_, index) => {
           const Icon = buttonIcons[index];
 
-          return <button className="p-3 border border-gray-800 rounded-lg cursor-pointer">
+          return <button key={index} className="p-3 border border-gray-800 rounded-lg cursor-pointer">
             <Icon size={20}/>
           </button>
         })}

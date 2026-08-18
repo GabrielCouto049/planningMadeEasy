@@ -1,4 +1,3 @@
-import { ToolCase } from "lucide-react"
 import UnfinishedProjectCard from "./Components/UnfinishedProjectCard"
 import type { ProjectType } from "../../types/projectType"
 import useGlobalStore from "@/stores/globalStore"
@@ -8,14 +7,19 @@ import ProjectCard from "../../components/shared/ProjectCard"
 
 const unfinishedProject: ProjectType = {
   id: "project-1",
-  title: "Project 1",
-  description: "A project about a cat",
   lastEdited: new Date(),
   progress: 50,
-  image: {
-    type: "icon",
-    value: ToolCase,
-  },
+  general: {
+    description: "skmkamf",
+    libs: ["kasdas", "asfasfa"],
+    problemSolved: "iksfafa",
+    stack: {
+      framework: "dsfasfa",
+      language: "asdasfa",
+    },
+    targetAudience: "safafasf",
+    title: "asfasfasf",
+  }
 }
 
 // ===== //

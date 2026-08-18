@@ -14,7 +14,7 @@ import {
   FRAMEWORK_SUGGESTIONS,
   LANGUAGE_SUGGESTIONS,
 } from "../constants/stackSuggestions"
-import useProjectCreation from "../hooks/useProjectCreation"
+import useNewProjectStore from "../stores/newProjectStore"
 
 export default function GeneralInfo() {
   const {
@@ -28,11 +28,11 @@ export default function GeneralInfo() {
     setStack,
     libs,
     setLibs,
-    solvedProblem,
-    setSolvedProblem,
+    problemSolved,
+    setProblemSolved,
     targetAudience,
     setTargetAudience,
-  } = useProjectCreation()
+  } = useNewProjectStore()
 
   return (
     <>
@@ -145,8 +145,8 @@ export default function GeneralInfo() {
                 id="solved-problem"
                 className="formTextInput h-24"
                 placeholder="Descreva o problema que o projeto soluciona..."
-                value={solvedProblem}
-                onChange={(e) => setSolvedProblem(e.target.value)}
+                value={problemSolved}
+                onChange={(e) => setProblemSolved(e.target.value)}
               />
             </Field>
           </FieldGroup>
