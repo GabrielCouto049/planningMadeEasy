@@ -4,6 +4,7 @@ import {
   FieldLabel,
   FieldLegend,
   FieldSet,
+  FieldError,
 } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@base-ui/react/input"
@@ -32,6 +33,7 @@ export default function GeneralInfo() {
     setProblemSolved,
     targetAudience,
     setTargetAudience,
+    errors,
   } = useNewProjectStore()
 
   return (
@@ -55,6 +57,7 @@ export default function GeneralInfo() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+                {errors.title && <FieldError>{errors.title}</FieldError>}
               </Field>
 
               <Field>

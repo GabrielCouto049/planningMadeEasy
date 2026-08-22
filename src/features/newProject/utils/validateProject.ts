@@ -1,6 +1,17 @@
 import type GeneralInfoType from "@/types/generalInfoType"
 
-export default function validateProject({title} : GeneralInfoType) : boolean {
-    if (title.length === 0) return false
-    return true
+export type GeneralInfoErrors = {
+  [K in keyof GeneralInfoType]?: string
+}
+
+export default function validateProject(
+  { title }: GeneralInfoType
+): GeneralInfoErrors {
+  const foundErrors: GeneralInfoErrors = {}
+
+  if (title.length === 0) {
+    foundErrors.title = "Título inválido"
+  }
+
+  return foundErrors
 }
