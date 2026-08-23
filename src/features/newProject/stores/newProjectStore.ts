@@ -1,55 +1,67 @@
 import { create } from "zustand"
-import type { ProjectImage, StackType } from "@/types/generalInfoType"
-import { Folder } from "lucide-react"
+
 import useGlobalStore from "@/stores/globalStore"
 import type GeneralInfoType from "@/types/generalInfoType"
-import validateProject from "../utils/validateProject"
 
-type NewProjectState = GeneralInfoType & {
-  setDescription: (v: string) => void
-  setTitle: (v: string) => void
-  setImage: (v: ProjectImage) => void
-  setStack: (v: StackType | ((prev: StackType) => StackType)) => void
-  setLibs: (v: string[]) => void
-  setProblemSolved: (v: string) => void
-  setTargetAudience: (v: string) => void
+import validateProject, {
+  type GeneralInfoErrors,
+} from "../utils/validateProject"
+
+import {
+  type GeneralInfoSliceType,
+  GeneralInfoSlice,
+} from "../slices/GeneralInfoSlice"
+
+export type NewProjectState = GeneralInfoSliceType & {
+  errors: GeneralInfoErrors
+  updateErrors: (data: GeneralInfoType) => boolean
   saveProject: () => void
 }
 
-const useNewProjectStore = create<NewProjectState>((set, get) => ({
-  title: "",
-  description: "",
-  stack: { language: "", framework: "" },
-  image: { type: "icon", icon: Folder },
-  libs: [],
-  problemSolved: "",
-  targetAudience: "",
+const useNewProjectStore = create<NewProjectState>((set, get, store) => ({
+  ...GeneralInfoSlice(set, get, store),
 
-  setTitle: (title) => set({ title }),
-  setDescription: (description) => set({ description }),
-  setImage: (image) => set({ image }),
-  setStack: (stack) =>
-    set((state) => ({
-      stack: typeof stack === "function" ? stack(state.stack) : stack,
-    })),
-  setLibs: (libs) => set({ libs }),
-  setProblemSolved: (problemSolved) => set({ problemSolved }),
-  setTargetAudience: (targetAudience) => set({ targetAudience }),
+  errors: {},
+
+  updateErrors: (data) => {
+    const errors = validateProject(data)
+
+    set({ errors })
+
+    return Object.keys(errors).length === 0
+  },
 
   saveProject: () => {
-    const projectInfo = get(); // Need to be changed later
+    const {
+      title,
+      description,
+      image,
+      stack,
+      libs,
+      problemSolved,
+      targetAudience,
+      updateErrors,
+    } = get()
 
-    if (validateProject(projectInfo)) {
-      useGlobalStore.getState().addProject({
-      id: crypto.randomUUID(),
-      lastEdited: new Date(),
-      progress: 0,
-      general: {
-        ...projectInfo
-      },
-    })
+    const general: GeneralInfoType = {
+      title,
+      description,
+      image,
+      stack,
+      libs,
+      problemSolved,
+      targetAudience,
     }
-  }
+
+    if (updateErrors(general)) {
+      useGlobalStore.getState().addProject({
+        id: crypto.randomUUID(),
+        lastEdited: new Date(),
+        progress: 0,
+        general,
+      })
+    }
+  },
 }))
 
 export default useNewProjectStore
