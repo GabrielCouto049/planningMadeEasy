@@ -1,8 +1,8 @@
 import type { ProjectImage, StackType } from "@/types/generalInfoType"
-import type GeneralInfoType from "@/types/generalInfoType"
+import type { GeneralInfoType } from "@/types/generalInfoType"
 import { Folder } from "lucide-react"
 import type { StateCreator } from "zustand"
-import type { NewProjectState } from "../stores/newProjectStore"
+import type { NewProjectState } from "../../stores/newProjectStore"
 
 export type GeneralInfoSliceType = GeneralInfoType & {
   setDescription: (v: string) => void

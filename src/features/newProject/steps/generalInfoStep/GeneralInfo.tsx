@@ -8,14 +8,14 @@ import {
 } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@base-ui/react/input"
-import IconPicker from "../components/IconPicker"
-import TagInput from "../components/TagInput"
-import ComboboxField from "../components/ComboboxField"
+import IconPicker from "./components/IconPicker"
+import TagInput from "./components/TagInput"
+import ComboboxField from "./components/ComboboxField"
 import {
   FRAMEWORK_SUGGESTIONS,
   LANGUAGE_SUGGESTIONS,
-} from "../constants/stackSuggestions"
-import useNewProjectStore from "../stores/newProjectStore"
+} from "./constants/stackSuggestions"
+import useNewProjectStore from "../../stores/newProjectStore"
 
 export default function GeneralInfo() {
   const {
@@ -40,12 +40,12 @@ export default function GeneralInfo() {
     <>
       <h1 className="sectionTitle">Informações Gerais</h1>
 
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-x-6 gap-y-8">
         <FieldSet className="col-span-2">
-          <FieldLegend className="mb-4">Identidade</FieldLegend>
+          <FieldLegend className="mb-3">Identidade</FieldLegend>
 
           <FieldGroup className="card p-6">
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-6">
               <Field>
                 <FieldLabel htmlFor="name">Nome do Projeto</FieldLabel>
 
@@ -57,6 +57,7 @@ export default function GeneralInfo() {
                   value={title}
                   onChange={(e) => setTitle(e.target.value)}
                 />
+
                 {errors.title && <FieldError>{errors.title}</FieldError>}
               </Field>
 
@@ -65,7 +66,7 @@ export default function GeneralInfo() {
 
                 <Textarea
                   id="description"
-                  className="formTextInput h-24"
+                  className="formTextInput h-24 resize-none"
                   placeholder="Descreva brevemente o projeto..."
                   value={description}
                   onChange={(e) => setDescription(e.target.value)}
@@ -75,54 +76,55 @@ export default function GeneralInfo() {
 
             <Field>
               <FieldLabel>Ícone ou Imagem</FieldLabel>
-
               <IconPicker value={image} onChange={setImage} />
             </Field>
           </FieldGroup>
         </FieldSet>
 
         <FieldSet>
-          <FieldLegend className="mb-4">Stack</FieldLegend>
+          <FieldLegend className="mb-3">Stack</FieldLegend>
 
           <FieldGroup className="card p-6">
-            <Field>
-              <FieldLabel>Linguagem</FieldLabel>
+            <div className="grid grid-cols-2 gap-4">
+              <Field>
+                <FieldLabel>Linguagem</FieldLabel>
 
-              <ComboboxField
-                suggestions={LANGUAGE_SUGGESTIONS}
-                placeholder="Ex: TypeScript"
-                value={stack.language}
-                onChange={(value) =>
-                  setStack((prev) => ({
-                    ...prev,
-                    language: value,
-                  }))
-                }
-              />
-            </Field>
+                <ComboboxField
+                  suggestions={LANGUAGE_SUGGESTIONS}
+                  placeholder="Ex: TypeScript"
+                  value={stack.language}
+                  onChange={(value) =>
+                    setStack((prev) => ({
+                      ...prev,
+                      language: value,
+                    }))
+                  }
+                />
+              </Field>
 
-            <Field>
-              <FieldLabel>Framework</FieldLabel>
+              <Field>
+                <FieldLabel>Framework</FieldLabel>
 
-              <ComboboxField
-                suggestions={FRAMEWORK_SUGGESTIONS}
-                placeholder="Ex: React"
-                value={stack.framework}
-                onChange={(value) =>
-                  setStack((prev) => ({
-                    ...prev,
-                    framework: value,
-                  }))
-                }
-              />
-            </Field>
+                <ComboboxField
+                  suggestions={FRAMEWORK_SUGGESTIONS}
+                  placeholder="Ex: React"
+                  value={stack.framework}
+                  onChange={(value) =>
+                    setStack((prev) => ({
+                      ...prev,
+                      framework: value,
+                    }))
+                  }
+                />
+              </Field>
+            </div>
           </FieldGroup>
         </FieldSet>
 
         <FieldSet>
-          <FieldLegend className="mb-4">Bibliotecas</FieldLegend>
+          <FieldLegend className="mb-3">Bibliotecas</FieldLegend>
 
-          <FieldGroup className="card p-6">
+          <FieldGroup className="card h-full p-6">
             <Field>
               <FieldLabel>Libs Utilizadas</FieldLabel>
 
@@ -136,7 +138,7 @@ export default function GeneralInfo() {
         </FieldSet>
 
         <FieldSet>
-          <FieldLegend className="mb-4">Problema Resolvido</FieldLegend>
+          <FieldLegend className="mb-3">Problema Resolvido</FieldLegend>
 
           <FieldGroup className="card p-6">
             <Field>
@@ -146,7 +148,7 @@ export default function GeneralInfo() {
 
               <Textarea
                 id="solved-problem"
-                className="formTextInput h-24"
+                className="formTextInput h-24 resize-none"
                 placeholder="Descreva o problema que o projeto soluciona..."
                 value={problemSolved}
                 onChange={(e) => setProblemSolved(e.target.value)}
@@ -156,9 +158,9 @@ export default function GeneralInfo() {
         </FieldSet>
 
         <FieldSet>
-          <FieldLegend className="mb-4">Público-Alvo</FieldLegend>
+          <FieldLegend className="mb-3">Público-Alvo</FieldLegend>
 
-          <FieldGroup className="card p-6">
+          <FieldGroup className="card h-full p-6">
             <Field>
               <FieldLabel htmlFor="target-audience">
                 Quem vai usar este projeto?

@@ -15,7 +15,7 @@ export interface StackType {
   framework: string
 }
 
-export default interface GeneralInfoType {
+export interface GeneralInfoType {
   title: string
   image?: ProjectImage
   description: string

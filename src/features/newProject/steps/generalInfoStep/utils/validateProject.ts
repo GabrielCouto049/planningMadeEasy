@@ -1,4 +1,4 @@
-import type GeneralInfoType from "@/types/generalInfoType"
+import type { GeneralInfoType } from "@/types/generalInfoType"
 
 export type GeneralInfoErrors = {
   [K in keyof GeneralInfoType]?: string

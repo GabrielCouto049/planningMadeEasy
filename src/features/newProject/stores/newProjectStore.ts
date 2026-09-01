@@ -1,29 +1,38 @@
-import { create } from "zustand"
-
+import { create, type StateCreator } from "zustand" // <-- Importe o StateCreator
+import { immer } from "zustand/middleware/immer"
 import useGlobalStore from "@/stores/globalStore"
-import type GeneralInfoType from "@/types/generalInfoType"
-
+import type { GeneralInfoType } from "@/types/generalInfoType"
 import validateProject, {
   type GeneralInfoErrors,
-} from "../utils/validateProject"
-
+} from "../steps/generalInfoStep/utils/validateProject"
 import {
   type GeneralInfoSliceType,
   GeneralInfoSlice,
-} from "../slices/GeneralInfoSlice"
+} from "../steps/generalInfoStep/slices/GeneralInfoSlice"
+import {
+  FolderTreeSlice,
+  type FolderTreeSliceType,
+} from "../steps/architectureStep/slices/FolderTreeSlice"
 
-export type NewProjectState = GeneralInfoSliceType & {
-  errors: GeneralInfoErrors
-  updateErrors: (data: GeneralInfoType) => boolean
-  saveProject: () => void
-}
+export type NewProjectState = GeneralInfoSliceType &
+  FolderTreeSliceType & {
+    errors: GeneralInfoErrors
+    updateErrors: (data: GeneralInfoType) => boolean
+    saveProject: () => void
+  }
 
-const useNewProjectStore = create<NewProjectState>((set, get, store) => ({
+type NewProjectStateCreator = StateCreator<
+  NewProjectState,
+  [["zustand/immer", never]]
+>
+
+const storeApi: NewProjectStateCreator = (set, get, store) => ({
   ...GeneralInfoSlice(set, get, store),
+  ...FolderTreeSlice(set, get, store),
 
   errors: {},
 
-  updateErrors: (data) => {
+  updateErrors: (data: GeneralInfoType) => {
     const errors = validateProject(data)
 
     set({ errors })
@@ -62,6 +71,8 @@ const useNewProjectStore = create<NewProjectState>((set, get, store) => ({
       })
     }
   },
-}))
+})
+
+const useNewProjectStore = create<NewProjectState>()(immer(storeApi))
 
 export default useNewProjectStore

@@ -7,7 +7,7 @@
 }
 
 .sectionTitle {
-    @apply mb-8 text-2xl font-semibold tracking-tight text-foreground;
+    @apply mt-4 mb-6 text-2xl font-semibold tracking-tight text-foreground;
 }
 
 .label {

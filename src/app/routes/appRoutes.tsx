@@ -3,15 +3,20 @@ import App from "../App"
 import AllProjects from "@/features/allProjects/AllProjects"
 import Dashboard from "@/features/dashboard/Dashboard"
 import NewProject from "@/features/newProject/NewProject"
-import GeneralInfo from "@/features/newProject/pages/GeneralInfo"
-import ProjectArch from "@/features/newProject/pages/ProjectArch"
-import ProjectDesign from "@/features/newProject/pages/ProjectDesign"
+import GeneralInfo from "@/features/newProject/steps/generalInfoStep/GeneralInfo"
+import ProjectArch from "@/features/newProject/steps/architectureStep/ProjectArch"
+import ProjectDesign from "@/features/newProject/steps/designStep/ProjectDesign"
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <App />,
-    errorElement: <><p>SORRY, THERE WAS A PROBLEM </p><NavLink to="/dashboard">Return Home</NavLink></>,
+    errorElement: (
+      <>
+        <p>SORRY, THERE WAS A PROBLEM </p>
+        <NavLink to="/dashboard">Return Home</NavLink>
+      </>
+    ),
     children: [
       {
         index: true,

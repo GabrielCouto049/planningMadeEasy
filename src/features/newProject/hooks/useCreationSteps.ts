@@ -4,9 +4,7 @@ import { steps } from "../constants/steps"
 export function useCreationSteps() {
   const location = useLocation()
 
-  const currentIndex = steps.findIndex(
-    (step) => step.to === location.pathname
-  )
+  const currentIndex = steps.findIndex((step) => step.to === location.pathname)
 
   return {
     currentIndex,

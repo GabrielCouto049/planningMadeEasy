@@ -1,11 +1,11 @@
-import { NavLink } from "react-router";
-import { useCreationSteps } from "../hooks/useCreationSteps";
-import { buttonVariants } from "@/components/ui/button";
-import useNewProjectStore from "../stores/newProjectStore";
+import { NavLink } from "react-router"
+import { useCreationSteps } from "../hooks/useCreationSteps"
+import { buttonVariants } from "@/components/ui/button"
+import useNewProjectStore from "../stores/newProjectStore"
 
 export default function NavButtons() {
-  const { previousStep, nextStep } = useCreationSteps();
-  const saveProject = useNewProjectStore((state) => state.saveProject);
+  const { previousStep, nextStep } = useCreationSteps()
+  const saveProject = useNewProjectStore((state) => state.saveProject)
 
   return (
     <footer className="mt-12 flex items-center justify-end gap-3 border-t border-border pt-6">
@@ -30,5 +30,5 @@ export default function NavButtons() {
         </button>
       )}
     </footer>
-  );
+  )
 }

@@ -5,7 +5,7 @@ import NavButtons from "./components/NavButtons"
 
 export default function NewProject() {
   return (
-    <div className="h-full grid grid-rows-[auto_1fr_auto] gap-6">
+    <div className="grid h-full grid-rows-[auto_1fr_auto] gap-6">
       <Stepper />
       <section className="overflow-auto">
         <Outlet />

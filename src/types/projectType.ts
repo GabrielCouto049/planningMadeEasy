@@ -1,4 +1,4 @@
-import type GeneralInfoType from "./generalInfoType";
+import type { GeneralInfoType } from "./generalInfoType";
 
 export interface ProjectType {
   id: string;
