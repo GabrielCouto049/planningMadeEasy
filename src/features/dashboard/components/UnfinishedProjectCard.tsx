@@ -4,8 +4,8 @@ import {
   ProgressLabel,
   ProgressValue,
 } from "@/components/ui/progress"
-import { renderImage } from "../../../utils/renderImage"
-import formatDate from "../../../utils/formatDate"
+import { renderImage } from "@/utils/renderImage"
+import formatDate from "@/utils/formatDate"
 import { Button } from "@/components/ui/button"
 
 export default function UnfinishedProjectCard({

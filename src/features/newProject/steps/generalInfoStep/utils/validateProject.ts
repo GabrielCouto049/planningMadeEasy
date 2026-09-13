@@ -4,9 +4,9 @@ export type GeneralInfoErrors = {
   [K in keyof GeneralInfoType]?: string
 }
 
-export default function validateProject(
-  { title }: GeneralInfoType
-): GeneralInfoErrors {
+export default function validateProject({
+  title,
+}: GeneralInfoType): GeneralInfoErrors {
   const foundErrors: GeneralInfoErrors = {}
 
   if (title.length === 0) {

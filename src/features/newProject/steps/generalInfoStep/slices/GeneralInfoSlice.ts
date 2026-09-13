@@ -2,9 +2,10 @@ import type { ProjectImage, StackType } from "@/types/generalInfoType"
 import type { GeneralInfoType } from "@/types/generalInfoType"
 import { Folder } from "lucide-react"
 import type { StateCreator } from "zustand"
-import type { NewProjectState } from "../../stores/newProjectStore"
+import type { NewProjectState } from "@/features/newProject/stores/newProjectStore"
 
-export type GeneralInfoSliceType = GeneralInfoType & {
+export type GeneralInfoSliceType = Omit<GeneralInfoType, "image"> & {
+  image: ProjectImage
   setDescription: (v: string) => void
   setTitle: (v: string) => void
   setImage: (v: ProjectImage) => void
@@ -14,12 +15,9 @@ export type GeneralInfoSliceType = GeneralInfoType & {
   setTargetAudience: (v: string) => void
 }
 
-export const GeneralInfoSlice: StateCreator<
-  NewProjectState,
-  [],
-  [],
-  GeneralInfoSliceType
-> = (set) => ({
+export const initialGeneralInfoState: Omit<GeneralInfoType, "image"> & {
+  image: ProjectImage
+} = {
   title: "",
   description: "",
   stack: { language: "", framework: "" },
@@ -27,6 +25,15 @@ export const GeneralInfoSlice: StateCreator<
   libs: [],
   problemSolved: "",
   targetAudience: "",
+}
+
+export const GeneralInfoSlice: StateCreator<
+  NewProjectState,
+  [],
+  [],
+  GeneralInfoSliceType
+> = (set) => ({
+  ...initialGeneralInfoState,
 
   setTitle: (title) => set({ title }),
   setDescription: (description) => set({ description }),

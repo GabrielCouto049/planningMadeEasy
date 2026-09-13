@@ -3,12 +3,12 @@ import { Ellipsis } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
 
-import type { ProjectType } from "../../types/projectType"
-import formatDate from "../../utils/formatDate"
-import { renderImage } from "../../utils/renderImage"
+import type { ProjectType } from "@/types/projectType"
+import formatDate from "@/utils/formatDate"
+import { renderImage } from "@/utils/renderImage"
 
 const getStatus = (progress: number): string => {
-  if (progress <= 0 || progress > 100) return "Inválido"
+  if (progress < 0 || progress > 100) return "Inválido"
   if (progress === 100) return "Completo"
   return "Ativo"
 }
@@ -17,11 +17,9 @@ interface ProjectCardProps {
   project: ProjectType
 }
 
-export default function ProjectCard({
-  project,
-}: ProjectCardProps) {
+export default function ProjectCard({ project }: ProjectCardProps) {
   const { lastEdited, progress, general } = project
-  const {image, title, description} = general
+  const { image, title, description } = general
 
   return (
     <aside className="card flex flex-col gap-6 p-6 transition-all hover:-translate-y-0.5 hover:shadow-md">

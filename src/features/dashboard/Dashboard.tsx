@@ -1,7 +1,7 @@
-import UnfinishedProjectCard from "./Components/UnfinishedProjectCard"
-import type { ProjectType } from "../../types/projectType"
+import UnfinishedProjectCard from "./components/UnfinishedProjectCard"
+import type { ProjectType } from "@/types/projectType"
 import useGlobalStore from "@/stores/globalStore"
-import ProjectCard from "../../components/shared/ProjectCard"
+import ProjectCard from "@/components/shared/ProjectCard"
 
 // === PLACEHOLDERS === //
 
@@ -19,7 +19,32 @@ const unfinishedProject: ProjectType = {
     },
     targetAudience: "safafasf",
     title: "asfasfasf",
-  }
+  },
+  folderArch: {
+    root: {
+      id: "root",
+      description: "The root directory of your project",
+      title: "ROOT",
+      children: [],
+      isOpen: true,
+    },
+  },
+  design: {
+    colors: {
+      primary: "#000000",
+      secundary: "#000000",
+      neutral: "#000000",
+      background: "#000000",
+    },
+    fonts: {
+      base: "Inter",
+      functional: "Inter",
+      headings: "Inter",
+    },
+    rounding: "large",
+    shadow: "medium",
+    spacing: "spacious",
+  },
 }
 
 // ===== //

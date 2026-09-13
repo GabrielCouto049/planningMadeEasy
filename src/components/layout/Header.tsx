@@ -16,11 +16,11 @@ export default function Header() {
           <Image className="size-5" />
         </div>
         <span className="text-base font-semibold tracking-tight">
-          PlanningMadeEasy
+          PlanningMadeEasy <span className="text-xl text-gray-500">V1</span>
         </span>
       </div>
 
-      <InputGroup className="card px-3 py-2 w-111">
+      <InputGroup className="card w-111 px-3 py-2">
         <InputGroupInput placeholder="Search..." />
         <InputGroupAddon align="inline-end">
           <SearchIcon />

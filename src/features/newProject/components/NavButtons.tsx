@@ -1,31 +1,58 @@
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
+import { useShallow } from "zustand/react/shallow"
 import { useCreationSteps } from "../hooks/useCreationSteps"
 import { buttonVariants } from "@/components/ui/button"
-import useNewProjectStore from "../stores/newProjectStore"
+import useNewProjectStore, {
+  selectGeneralInfo,
+} from "@/features/newProject/stores/newProjectStore"
 
 export default function NavButtons() {
-  const { previousStep, nextStep } = useCreationSteps()
+  const { currentIndex, previousStep, nextStep } = useCreationSteps()
+  const navigate = useNavigate()
+
+  const general = useNewProjectStore(useShallow(selectGeneralInfo))
+  const updateErrors = useNewProjectStore((state) => state.updateErrors)
   const saveProject = useNewProjectStore((state) => state.saveProject)
+  const resetProject = useNewProjectStore((state) => state.resetProject)
+
+  function handleNext() {
+    if (!nextStep) return
+
+    // Valida o passo de Informações antes de avançar
+    if (currentIndex === 0 && !updateErrors(general)) {
+      return
+    }
+
+    navigate(nextStep.to)
+  }
+
+  function handleSave() {
+    if (!saveProject()) {
+      navigate("/projetos/novo/informacoes")
+      return
+    }
+
+    resetProject()
+    navigate("/projetos")
+  }
 
   return (
-    <footer className="mt-12 flex items-center justify-end gap-3 border-t border-border pt-6">
-      {previousStep ? (
+    <footer className="flex justify-end gap-3 border-t border-border p-3">
+      {previousStep && (
         <NavLink
           to={previousStep.to}
           className={buttonVariants({ variant: "outline" })}
         >
           Voltar
         </NavLink>
-      ) : (
-        <span />
       )}
 
       {nextStep ? (
-        <NavLink to={nextStep.to} className={buttonVariants()}>
+        <button className={buttonVariants()} onClick={handleNext}>
           Próximo passo
-        </NavLink>
+        </button>
       ) : (
-        <button className={buttonVariants()} onClick={saveProject}>
+        <button className={buttonVariants()} onClick={handleSave}>
           Salvar
         </button>
       )}

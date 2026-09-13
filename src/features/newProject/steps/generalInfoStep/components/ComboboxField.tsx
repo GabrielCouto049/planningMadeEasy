@@ -68,7 +68,7 @@ export default function ComboboxField({
         className="formTextInput flex h-8 w-full items-center justify-between pr-8"
         autoComplete="off"
       />
-      <ChevronDownIcon className="pointer-events-none absolute right-2.5 top-1/2 size-4 -translate-y-1/2 text-muted-foreground" />
+      <ChevronDownIcon className="pointer-events-none absolute top-1/2 right-2.5 size-4 -translate-y-1/2 text-muted-foreground" />
 
       {isOpen && filtered.length > 0 && (
         <ul

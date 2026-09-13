@@ -8,6 +8,7 @@ import {
 } from "@/components/ui/field"
 import { Textarea } from "@/components/ui/textarea"
 import { Input } from "@base-ui/react/input"
+import { useShallow } from "zustand/react/shallow"
 import IconPicker from "./components/IconPicker"
 import TagInput from "./components/TagInput"
 import ComboboxField from "./components/ComboboxField"
@@ -15,7 +16,9 @@ import {
   FRAMEWORK_SUGGESTIONS,
   LANGUAGE_SUGGESTIONS,
 } from "./constants/stackSuggestions"
-import useNewProjectStore from "../../stores/newProjectStore"
+import useNewProjectStore, {
+  selectGeneralInfo,
+} from "@/features/newProject/stores/newProjectStore"
 
 export default function GeneralInfo() {
   const {
@@ -34,7 +37,19 @@ export default function GeneralInfo() {
     targetAudience,
     setTargetAudience,
     errors,
-  } = useNewProjectStore()
+  } = useNewProjectStore(
+    useShallow((state) => ({
+      ...selectGeneralInfo(state),
+      setTitle: state.setTitle,
+      setDescription: state.setDescription,
+      setImage: state.setImage,
+      setStack: state.setStack,
+      setLibs: state.setLibs,
+      setProblemSolved: state.setProblemSolved,
+      setTargetAudience: state.setTargetAudience,
+      errors: state.errors,
+    }))
+  )
 
   return (
     <>

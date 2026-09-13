@@ -1,10 +1,10 @@
 import type { ReactNode } from "react"
-import type { ProjectType } from "../types/projectType"
+import type { ProjectImage } from "../types/generalInfoType"
 import { Image } from "lucide-react"
 
 // === RENDERS A DIFFERENT COMPONENT DEPENDING ON THE IMAGE TYPE === //
 
-export const renderImage = (image: ProjectType["image"]): ReactNode => {
+export const renderImage = (image?: ProjectImage): ReactNode => {
   if (!image) return <Image size={20} />
 
   if (image.type === "icon") {

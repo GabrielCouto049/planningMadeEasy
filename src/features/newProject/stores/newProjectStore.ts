@@ -1,25 +1,48 @@
-import { create, type StateCreator } from "zustand" // <-- Importe o StateCreator
+import { create, type StateCreator } from "zustand"
 import { immer } from "zustand/middleware/immer"
 import useGlobalStore from "@/stores/globalStore"
-import type { GeneralInfoType } from "@/types/generalInfoType"
+import type { GeneralInfoType, ProjectImage } from "@/types/generalInfoType"
 import validateProject, {
   type GeneralInfoErrors,
-} from "../steps/generalInfoStep/utils/validateProject"
+} from "@/features/newProject/steps/generalInfoStep/utils/validateProject"
 import {
   type GeneralInfoSliceType,
   GeneralInfoSlice,
-} from "../steps/generalInfoStep/slices/GeneralInfoSlice"
+  initialGeneralInfoState,
+} from "@/features/newProject/steps/generalInfoStep/slices/GeneralInfoSlice"
 import {
   FolderTreeSlice,
   type FolderTreeSliceType,
-} from "../steps/architectureStep/slices/FolderTreeSlice"
+  initialFolderTreeState,
+} from "@/features/newProject/steps/architectureStep/slices/FolderTreeSlice"
+import {
+  DesignSlice,
+  type DesignSliceType,
+  initialDesignState,
+} from "@/features/newProject/steps/designStep/slices/DesignSlice"
 
 export type NewProjectState = GeneralInfoSliceType &
-  FolderTreeSliceType & {
+  FolderTreeSliceType &
+  DesignSliceType & {
     errors: GeneralInfoErrors
     updateErrors: (data: GeneralInfoType) => boolean
-    saveProject: () => void
+    saveProject: () => boolean
+    resetProject: () => void
   }
+
+export function selectGeneralInfo(
+  state: NewProjectState
+): Omit<GeneralInfoType, "image"> & { image: ProjectImage } {
+  return {
+    title: state.title,
+    description: state.description,
+    image: state.image,
+    stack: state.stack,
+    libs: state.libs,
+    problemSolved: state.problemSolved,
+    targetAudience: state.targetAudience,
+  }
+}
 
 type NewProjectStateCreator = StateCreator<
   NewProjectState,
@@ -29,6 +52,7 @@ type NewProjectStateCreator = StateCreator<
 const storeApi: NewProjectStateCreator = (set, get, store) => ({
   ...GeneralInfoSlice(set, get, store),
   ...FolderTreeSlice(set, get, store),
+  ...DesignSlice(set, get, store),
 
   errors: {},
 
@@ -41,36 +65,38 @@ const storeApi: NewProjectStateCreator = (set, get, store) => ({
   },
 
   saveProject: () => {
-    const {
-      title,
-      description,
-      image,
-      stack,
-      libs,
-      problemSolved,
-      targetAudience,
-      updateErrors,
-    } = get()
+    const state = get()
+    const general = selectGeneralInfo(state)
 
-    const general: GeneralInfoType = {
-      title,
-      description,
-      image,
-      stack,
-      libs,
-      problemSolved,
-      targetAudience,
+    if (!state.updateErrors(general)) {
+      return false
     }
 
-    if (updateErrors(general)) {
-      useGlobalStore.getState().addProject({
-        id: crypto.randomUUID(),
-        lastEdited: new Date(),
-        progress: 0,
-        general,
-      })
-    }
+    useGlobalStore.getState().addProject({
+      id: crypto.randomUUID(),
+      lastEdited: new Date(),
+      progress: 0,
+      general,
+      folderArch: state.tree,
+      design: {
+        colors: state.colors,
+        fonts: state.fonts,
+        rounding: state.rounding,
+        shadow: state.shadow,
+        spacing: state.spacing,
+      },
+    })
+
+    return true
   },
+
+  resetProject: () =>
+    set({
+      ...initialGeneralInfoState,
+      ...initialFolderTreeState,
+      ...initialDesignState,
+      errors: {},
+    }),
 })
 
 const useNewProjectStore = create<NewProjectState>()(immer(storeApi))

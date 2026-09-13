@@ -2,7 +2,6 @@ import { Field, FieldLabel, FieldLegend, FieldSet } from "@/components/ui/field"
 import type { GenericNodeProps, Node } from "@/types/folderTreeTypes"
 import { createNode, getFileExtension } from "../utils/newFileUtils"
 import { Textarea } from "@/components/ui/textarea"
-import { fileTypeLib } from "../constants/iconLib"
 import { Button } from "@/components/ui/button"
 import { FolderPlus, File } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
@@ -23,7 +22,6 @@ export default function NewFileForm({
     useState<Omit<GenericNodeProps, "id">>(EMPTY_FILE)
 
   const extension = getFileExtension(draftFile.title)
-  const fileType = fileTypeLib[extension]
 
   function saveFile() {
     if (!draftFile.title.trim()) return
@@ -54,7 +52,7 @@ export default function NewFileForm({
             Nome
             {draftFile.title.trim() && (
               <Badge variant="secondary" className="ml-auto gap-1 text-xs">
-                {fileType ? (
+                {extension ? (
                   <>
                     <File className="size-3" />
                     Arquivo .{extension}

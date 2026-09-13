@@ -52,7 +52,7 @@ export default function AllProjects() {
               <SearchIcon />
             </InputGroupAddon>
           </InputGroup>
-          
+
           <NavLink to="/projetos/novo" className={buttonVariants()}>
             Novo Projeto
           </NavLink>

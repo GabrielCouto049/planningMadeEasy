@@ -1,4 +1,4 @@
-import type { FileNode, FolderNode, Node } from "@/types/folderTreeTypes"
+import type { FolderNode, Node } from "@/types/folderTreeTypes"
 import useNewProjectStore from "@/features/newProject/stores/newProjectStore"
 
 import FolderItem from "./FolderItem"
@@ -17,19 +17,13 @@ interface FolderTreeProps {
 export default function FolderTree({ tree }: FolderTreeProps) {
   const toggleFolder = useNewProjectStore((state) => state.toggleFolder)
 
-  function renderNode(node: Node, depth: number) {
+  function renderNode(
+    node: Node,
+    depth: number,
+    index: number,
+    parentId: string
+  ) {
     if ("children" in node) {
-      const folders: FolderNode[] = []
-      const files: FileNode[] = []
-
-      for (const child of node.children) {
-        if ("children" in child) {
-          folders.push(child)
-        } else {
-          files.push(child)
-        }
-      }
-
       return (
         <FolderItem
           key={node.id}
@@ -38,10 +32,13 @@ export default function FolderTree({ tree }: FolderTreeProps) {
           indentSize={INDENT_SIZE}
           onToggle={toggleFolder}
           Icon={node.isOpen ? FolderClosed : Folder}
+          index={index}
+          parentId={parentId}
+          isRoot={node.id === "root"}
         >
-          {folders.map((child) => renderNode(child, depth + 1))}
-
-          <div>{files.map((child) => renderNode(child, depth + 1))}</div>
+          {node.children.map((child, childIndex) =>
+            renderNode(child, depth + 1, childIndex, node.id)
+          )}
         </FolderItem>
       )
     }
@@ -53,9 +50,13 @@ export default function FolderTree({ tree }: FolderTreeProps) {
         depth={depth}
         indentSize={INDENT_SIZE}
         Icon={getTreeIcon(node.type)}
+        index={index}
+        parentId={parentId}
       />
     )
   }
 
-  return <div className="text-sm">{renderNode(tree.root, 0)}</div>
+  return (
+    <div className="text-sm">{renderNode(tree.root, 0, 0, tree.root.id)}</div>
+  )
 }

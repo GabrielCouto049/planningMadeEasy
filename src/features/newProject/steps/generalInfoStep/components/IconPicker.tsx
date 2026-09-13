@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react"
 import {
   Folder,
   FileCode,
@@ -33,14 +34,28 @@ export default function IconPicker({
   onChange,
   className,
 }: IconPickerProps) {
-  const handleFileChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
+  const lastUrlRef = useRef<string | null>(null)
+
+  useEffect(
+    () => () => {
+      if (lastUrlRef.current) {
+        URL.revokeObjectURL(lastUrlRef.current)
+      }
+    },
+    []
+  )
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
 
     if (!file) return
 
+    if (lastUrlRef.current) {
+      URL.revokeObjectURL(lastUrlRef.current)
+    }
+
     const url = URL.createObjectURL(file)
+    lastUrlRef.current = url
 
     onChange({ type: "image", url })
   }

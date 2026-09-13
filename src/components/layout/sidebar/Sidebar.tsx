@@ -1,4 +1,11 @@
-import { Bell, CircleQuestionMark, Hammer, Home, Settings, type LucideIcon } from "lucide-react"
+import {
+  Bell,
+  CircleQuestionMark,
+  Hammer,
+  Home,
+  Settings,
+  type LucideIcon,
+} from "lucide-react"
 import type { LinkGroupType } from "./types/linkType"
 import LinkGroup from "./components/LinkGroup"
 
@@ -12,7 +19,7 @@ const linkGroups: LinkGroupType[] = [
   },
 ]
 
-const buttonIcons: LucideIcon[] = [Settings, Bell, CircleQuestionMark];
+const buttonIcons: LucideIcon[] = [Settings, Bell, CircleQuestionMark]
 
 export default function Sidebar() {
   return (
@@ -28,11 +35,16 @@ export default function Sidebar() {
       </div>
       <footer className="flex items-center justify-around">
         {buttonIcons.map((_, index) => {
-          const Icon = buttonIcons[index];
+          const Icon = buttonIcons[index]
 
-          return <button key={index} className="p-3 border border-gray-800 rounded-lg cursor-pointer">
-            <Icon size={20}/>
-          </button>
+          return (
+            <button
+              key={index}
+              className="cursor-pointer rounded-lg border border-gray-800 p-3"
+            >
+              <Icon size={20} />
+            </button>
+          )
         })}
       </footer>
     </aside>

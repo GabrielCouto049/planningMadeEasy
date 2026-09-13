@@ -1,12 +1,12 @@
-import type { LucideIcon } from "lucide-react";
+import type { LucideIcon } from "lucide-react"
 
 export interface LinkType {
-    path: string,
-    title: string,
-    icon: LucideIcon
+  path: string
+  title: string
+  icon: LucideIcon
 }
 
 export interface LinkGroupType {
-    title: string,
-    links: LinkType[],
+  title: string
+  links: LinkType[]
 }

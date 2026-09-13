@@ -1,9 +1,9 @@
 import { ClipboardList, Layers, Palette, type LucideIcon } from "lucide-react"
 
 export interface Step {
-    to: string,
-    title: string,
-    icon: LucideIcon,
+  to: string
+  title: string
+  icon: LucideIcon
 }
 
 export const steps: Step[] = [

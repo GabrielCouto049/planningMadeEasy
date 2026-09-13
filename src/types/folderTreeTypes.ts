@@ -7,20 +7,14 @@ interface GenericNodeProps {
 type FileType = "code" | "image" | "text"
 
 type FileNode = GenericNodeProps & {
-    type: FileType
+  type: FileType
 }
 
 type FolderNode = GenericNodeProps & {
-    isOpen: boolean
-    children: Node[]
+  isOpen: boolean
+  children: Node[]
 }
 
 type Node = FileNode | FolderNode
 
-export type {
-    GenericNodeProps,
-    FileNode,
-    FileType,
-    FolderNode,
-    Node,
-}
+export type { GenericNodeProps, FileNode, FileType, FolderNode, Node }
